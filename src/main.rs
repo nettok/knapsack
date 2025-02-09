@@ -22,13 +22,17 @@ fn main() {
         max_value,
         selected_items,
     } = knapsack(&items, capacity);
-    println!("Maximum value: {}", max_value);
+    println!("\nMaximum value: {}", max_value);
     println!("Selected items: {:?}", selected_items);
 }
 
 fn knapsack(items: &[Item], capacity: i32) -> Knapsack {
     let n = items.len();
     let mut dp = vec![vec![0; (capacity + 1) as usize]; n + 1];
+
+    // Print initial DP table (all zeros)
+    println!("Initial DP table:");
+    print_dp_table(&dp, capacity);
 
     // Fill the DP table
     for i in 1..=n {
@@ -42,6 +46,9 @@ fn knapsack(items: &[Item], capacity: i32) -> Knapsack {
                 dp[i][j as usize] = dp[i - 1][j as usize];
             }
         }
+        // Print DP table after processing each item
+        println!("\nDP table after processing item {} (weight: {}, value: {}):", i, items[i - 1].weight, items[i - 1].value);
+        print_dp_table(&dp, capacity);
     }
 
     // Backtrack to find the selected items
@@ -60,5 +67,25 @@ fn knapsack(items: &[Item], capacity: i32) -> Knapsack {
     Knapsack {
         max_value: dp[n][capacity as usize],
         selected_items,
+    }
+}
+
+// Helper function to print the DP table
+fn print_dp_table(dp: &[Vec<i32>], capacity: i32) {
+    print!("     ");
+    for j in 0..=capacity {
+        print!("{:2} ", j);
+    }
+    println!();
+    for (i, row) in dp.iter().enumerate() {
+        if i == 0 {
+            print!(" 0 | ");
+        } else {
+            print!("{:2} | ", i);
+        }
+        for &val in row {
+            print!("{:2} ", val);
+        }
+        println!();
     }
 }

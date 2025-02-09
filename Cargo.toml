@@ -1,0 +1,7 @@
+[package]
+name = "knapsack"
+version = "0.1.0"
+authors = ["Ernesto Menéndez <pyalec@gmail.com>"]
+edition = "2021"
+
+[dependencies]
